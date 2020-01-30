@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CardOutSideItem(),
+      home: Seila(),
     );
   }
 }
@@ -73,3 +73,100 @@ class CardOutSideItem extends StatelessWidget {
     );
   }
 }
+
+class Seila extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.pink,
+      body: Center(
+        child: Stack(
+          children: <Widget>[
+            CustomPaint(
+              painter: BorderPainter(),
+              child: Container(
+                height: MediaQuery.of(context).size.height -200,
+                width: MediaQuery.of(context).size.width - 100,
+              ),
+            ),
+            ClipPath(
+              clipper: MyCustomClipper(),
+              child: Container(
+                  height: MediaQuery.of(context).size.height -210,
+                  width: MediaQuery.of(context).size.width - 100,
+                  color: Colors.white
+                )
+            )
+          ],
+          )
+        ),
+    );
+  }
+}
+
+//https://dribbble.com/shots/9802474-Concert-Ticket-Booking-App/attachments/1834162?mode=media
+class BorderPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = Colors.black45
+      ..maskFilter = MaskFilter.blur(
+        BlurStyle.normal, 3.0
+      );
+    Path path = Path();
+    path.lineTo(0, 30);
+      path.lineTo(0, size.height/2 -30);
+      path.quadraticBezierTo(30, size.height/2-30, 30, size.height/2);
+      path.quadraticBezierTo(30, size.height/2+30, 0, size.height/2+30);
+      path.lineTo(0, size.height -30);
+      path.quadraticBezierTo(size.width, size.height, 30, size.height-30);
+      path.lineTo(0, size.height-30);
+      path.quadraticBezierTo(0, size.height, 30, size.height);
+      path.lineTo(size.width-30, size.height);
+      path.quadraticBezierTo(size.width, size.height, size.width, size.height-30);
+      path.lineTo(size.width, size.height/2+30);
+      path.quadraticBezierTo(size.width-30, size.height/2+30, size.width-30, size.height/2);
+      path.quadraticBezierTo(size.width-30, size.height/2-30, size.width, size.height/2-30);
+      path.lineTo(size.width, 30);
+      path.quadraticBezierTo(size.width, 0, size.width-30, 0);
+      path.lineTo(30, 0);
+      path.quadraticBezierTo(0, 0, 0, 30);
+      path.close();
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+}
+
+ class MyCustomClipper extends CustomClipper<Path> {
+    @override
+    Path getClip(Size size) {
+      final path = Path();
+      path.lineTo(0, 30);
+      path.lineTo(0, size.height/2 -30);
+      path.quadraticBezierTo(30, size.height/2-30, 30, size.height/2);
+      path.quadraticBezierTo(30, size.height/2+30, 0, size.height/2+30);
+      path.lineTo(0, size.height -30);
+      path.quadraticBezierTo(size.width, size.height, 30, size.height-30);
+      path.lineTo(0, size.height-30);
+      path.quadraticBezierTo(0, size.height, 30, size.height);
+      path.lineTo(size.width-30, size.height);
+      path.quadraticBezierTo(size.width, size.height, size.width, size.height-30);
+      path.lineTo(size.width, size.height/2+30);
+      path.quadraticBezierTo(size.width-30, size.height/2+30, size.width-30, size.height/2);
+      path.quadraticBezierTo(size.width-30, size.height/2-30, size.width, size.height/2-30);
+      path.lineTo(size.width, 30);
+      path.quadraticBezierTo(size.width, 0, size.width-30, 0);
+      path.lineTo(30, 0);
+      path.quadraticBezierTo(0, 0, 0, 30);
+      path.close();
+      return path;
+    }
+  
+    @override
+    bool shouldReclip(CustomClipper oldClipper) {
+      return true;
+    }
+  }
