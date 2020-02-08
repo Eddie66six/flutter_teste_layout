@@ -12,8 +12,141 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Seila(),
+      home: Scaffold(body: EvoCardPerfil(20)),
     );
+  }
+}
+
+class EvoCardPerfil extends StatelessWidget {
+  final double percentage;
+  EvoCardPerfil(this.percentage);
+  @override
+  Widget build(BuildContext context) {
+    var marginCard = 15.0;
+    var paddingCard = 5.0;
+    var widthCard = MediaQuery.of(context).size.width-marginCard*2;
+    var heightCard = MediaQuery.of(context).size.height/5;
+    var avatarRadius = heightCard/3 - paddingCard*2;
+
+    var smallFontStyle = TextStyle(fontSize: 12);
+    var smallFontStyleBold = TextStyle(fontSize: 12, fontWeight: FontWeight.bold);
+    _buildAvatar(){
+      return Expanded(
+        flex: 2,
+        child: Container(
+          alignment: Alignment.topLeft,
+          child: CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: avatarRadius,
+            backgroundImage:
+              NetworkImage("http://www.vipcloset.com.br/media/catalog/product/cache/1/thumbnail/600x600/9df78eab33525d08d6e5fb8d27136e95/i/r/iron_maiden_eddie_giving_the_finger_ts_937_b.jpg"),
+          ),
+        ),
+      );
+    }
+
+    _buildMiddle(){
+      return Expanded(
+              flex: 5,
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("Rodrigo Texeira"),
+                        Row(
+                          children: <Widget>[
+                            Text("Nivel", style: smallFontStyle),
+                            Text("  "),
+                            Text("Azul, 3 grau", style: smallFontStyleBold),
+                          ],
+                        )
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Text("Progresso", style: smallFontStyle),
+                            Text(" - ", style: smallFontStyle),
+                            Text("1000/1000", style: smallFontStyleBold),
+                            Text(" "),
+                            Text("sessoes", style: smallFontStyle)
+                          ],
+                        ),
+                      LayoutBuilder(
+                        builder: (context, box) => 
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 5),
+                            height: 10,
+                            width: percentage/100 * box.maxWidth,
+                            decoration: BoxDecoration(
+                              color: Colors.redAccent,
+                              borderRadius: BorderRadius.horizontal(
+                                left: Radius.circular(10),
+                                right: Radius.circular(10)
+                              )
+                            ),
+                          )
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Icon(Icons.web_asset),
+                            Icon(Icons.web_asset),
+                            Icon(Icons.web_asset),
+                            Icon(Icons.web_asset)
+                          ],
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            );
+    }
+
+    _buildRightSide(){
+      return Expanded(
+        flex: 2,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Icon(Icons.more_vert),
+              Column(
+                children: <Widget>[
+                  Text("Aguardando graduaçao", textAlign: TextAlign.right, style: smallFontStyle),
+                  //size icons left
+                  SizedBox(height: 36/2, width: 10)
+                ],
+              )
+            ],
+          ),
+        )
+      );
+    }
+
+    return Container(
+          height: heightCard,
+          width: widthCard,
+          color: Colors.white,
+          margin: EdgeInsets.all(marginCard),
+          padding: EdgeInsets.all(paddingCard),
+          child: Row(
+            children: <Widget>[
+              _buildAvatar(),
+              _buildMiddle(),
+              _buildRightSide()
+            ],
+          )
+      );
   }
 }
 
